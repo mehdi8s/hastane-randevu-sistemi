@@ -23,8 +23,18 @@ Reddedilen, tamamlanan ve iptal edilen kayıt yeniden onaylanamaz.
 
 Ortak zaman kavramı `ZamanAraligi` içindedir. Şube çalışma saati ve doktor uygunluğu aynı sınıftır. Aralık aynı güne ait değilse çakışmaz. Bir aralık diğerini ancak aynı günde ve sınırların içindeyse kapsar.
 
+## Randevu servisi
+
+`RandevuServisi` yeni kaydın tek girişidir. Talep kabul edilmeden önce üç kural aranır:
+
+- Başlangıç ve hizmet süresi, doktorun tek bir uygunluk aralığının içinde kalır. Aralık 09:00–12:00 ise 11:40’ta başlayan 20 dakikalık randevu geçer, 11:50’de başlayan geçmez.
+- Aynı aralık şubenin çalışma saatinin de içinde kalır.
+- Doktorun veya hastanın, saati hâlâ dolu olan başka bir randevusu yoktur. Dolu sayılan durumlar onay bekleyen, onaylanan ve tamamlanandır. Reddedilen ve iptal edilen saat yeniden verilebilir. Bitişik saatler çakışmaz: 09:00–09:20 ile 09:20–09:40 birlikte durabilir.
+
+Onay, red ve tamamlama ilgili doktora veya aynı kurumun yöneticisine aittir. İptali randevunun hastası da yapabilir. Başka doktor, sağlık personeli ve başka kurumun yöneticisi bu kayda dokunamaz.
+
 ## Bilinçli olarak sonraki adıma bırakılanlar
 
-Randevu oluştururken çakışma kontrolü henüz yoktur. `Randevu` kurucusu doktorun hizmetini ve şubesini doğrular; saatin uygunluğu ve başka randevuyla çakışması bir uygulama servisinde toplanacaktır. Giriş, yetki kontrolünün servis katmanında kullanılması, kayıtların dosyada saklanması ve ekran da bu modelin üstüne eklenecektir.
+Kayıtların dosyada saklanması, giriş ekranı ve rollerin oturumla seçilmesi bu servisin üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
 
 Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.

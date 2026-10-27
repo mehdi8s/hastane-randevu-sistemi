@@ -41,4 +41,20 @@ public abstract class SaglikKurumu {
     public List<Sube> getSubeler() {
         return List.copyOf(subeler);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof SaglikKurumu kurum)) {
+            return false;
+        }
+        return id.equals(kurum.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
 }

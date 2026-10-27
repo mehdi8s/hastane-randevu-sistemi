@@ -61,6 +61,7 @@ public final class ModelDenemesi {
         kontrol(randevu.getDurum() == RandevuDurumu.ONAYLANDI, "Onay gecisi calismali.");
         kontrol(hataVerir(randevu::onayla), "Ikinci onay gecersiz olmali.");
 
+        RandevuServisiDenemesi.main(args);
         System.out.println("Model denemesi gecti.");
     }
 

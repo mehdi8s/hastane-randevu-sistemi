@@ -2,7 +2,7 @@
 
 Sakarya Üniversitesi bilgisayar mühendisliği yüksek lisans dersi için nesneye dayalı randevu sistemi. Tek klinik de, birden fazla şubesi olan hastane de aynı modelle kurulur.
 
-İlk sürüm alan modelidir: kurum, şube, hizmet, kişi rolleri ve randevu durum geçişleri. Çakışma kontrolü, kalıcı kayıt ve ekran sonraki adımlardadır. Tasarım kararları `TASARIM.md` dosyasındadır.
+Alan modeli kurum, şube, hizmet, kişi rolleri ve randevu durumunu taşır. Randevu servisi uygunluk saatini, çakışmayı ve onay yetkisini uygular. Kalıcı kayıt ve ekran sonraki adımlardadır. Tasarım kararları `TASARIM.md` dosyasındadır.
 
 ## Derleme
 
@@ -14,6 +14,11 @@ javac --release 17 -encoding UTF-8 -d out (Get-ChildItem -Recurse -Filter *.java
 java -cp out com.mehdi8s.hastane.ModelDenemesi
 ```
 
-Beklenen çıktı: `Model denemesi gecti.`
+Beklenen çıktı:
+
+```
+Randevu servisi denemesi gecti.
+Model denemesi gecti.
+```
 
 `pom.xml` Maven içindir. Bu makinede Maven kurulu olmak zorunda değildir.

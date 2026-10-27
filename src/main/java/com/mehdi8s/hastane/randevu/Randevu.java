@@ -62,6 +62,18 @@ public final class Randevu {
         return baslangic.plusMinutes(sureDakika);
     }
 
+    public boolean zamanCakisiyor(LocalDateTime digerBaslangic, LocalDateTime digerBitis) {
+        Objects.requireNonNull(digerBaslangic, "Baslangic bos olamaz.");
+        Objects.requireNonNull(digerBitis, "Bitis bos olamaz.");
+        return baslangic.isBefore(digerBitis) && digerBaslangic.isBefore(bitis());
+    }
+
+    public boolean yerKaplar() {
+        return durum == RandevuDurumu.ONAY_BEKLIYOR
+                || durum == RandevuDurumu.ONAYLANDI
+                || durum == RandevuDurumu.TAMAMLANDI;
+    }
+
     public String getId() {
         return id;
     }
@@ -100,6 +112,22 @@ public final class Randevu {
 
     public RandevuDurumu getDurum() {
         return durum;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Randevu randevu)) {
+            return false;
+        }
+        return id.equals(randevu.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id.hashCode();
     }
 
     private void gec(RandevuDurumu hedef, RandevuDurumu... beklenen) {

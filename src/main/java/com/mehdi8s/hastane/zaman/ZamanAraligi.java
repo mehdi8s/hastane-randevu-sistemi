@@ -51,6 +51,20 @@ public final class ZamanAraligi {
         return zaman.getDayOfWeek() == gun && !saat.isBefore(baslangic) && saat.isBefore(bitis);
     }
 
+    public boolean sureyiKapsar(LocalDateTime aralikBaslangic, LocalDateTime aralikBitis) {
+        Objects.requireNonNull(aralikBaslangic, "Baslangic bos olamaz.");
+        Objects.requireNonNull(aralikBitis, "Bitis bos olamaz.");
+        if (!aralikBaslangic.toLocalDate().equals(aralikBitis.toLocalDate())) {
+            return false;
+        }
+        if (aralikBaslangic.getDayOfWeek() != gun || !aralikBaslangic.isBefore(aralikBitis)) {
+            return false;
+        }
+        LocalTime bas = aralikBaslangic.toLocalTime();
+        LocalTime son = aralikBitis.toLocalTime();
+        return !bas.isBefore(baslangic) && !son.isAfter(bitis);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
