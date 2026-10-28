@@ -42,6 +42,61 @@ public final class Randevu {
         this.durum = RandevuDurumu.ONAY_BEKLIYOR;
     }
 
+    private Randevu(
+            String id,
+            Hasta hasta,
+            Doktor doktor,
+            Sube sube,
+            String hizmetAdi,
+            String hizmetTuru,
+            int sureDakika,
+            BigDecimal ucret,
+            LocalDateTime baslangic,
+            RandevuDurumu durum) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Randevu kimligi bos olamaz.");
+        }
+        this.hasta = Objects.requireNonNull(hasta, "Hasta bos olamaz.");
+        this.doktor = Objects.requireNonNull(doktor, "Doktor bos olamaz.");
+        this.sube = Objects.requireNonNull(sube, "Sube bos olamaz.");
+        if (hizmetAdi == null || hizmetAdi.isBlank()) {
+            throw new IllegalArgumentException("Hizmet adi bos olamaz.");
+        }
+        if (hizmetTuru == null || hizmetTuru.isBlank()) {
+            throw new IllegalArgumentException("Hizmet turu bos olamaz.");
+        }
+        if (sureDakika <= 0) {
+            throw new IllegalArgumentException("Hizmet suresi sifirdan buyuk olmali.");
+        }
+        if (ucret == null || ucret.signum() < 0) {
+            throw new IllegalArgumentException("Hizmet ucreti negatif olamaz.");
+        }
+        this.baslangic = Objects.requireNonNull(baslangic, "Baslangic bos olamaz.");
+        this.durum = Objects.requireNonNull(durum, "Durum bos olamaz.");
+        if (!doktor.getSube().equals(sube)) {
+            throw new IllegalArgumentException("Randevu, doktorun calistigi subede olmali.");
+        }
+        this.id = id.trim();
+        this.hizmetAdi = hizmetAdi.trim();
+        this.hizmetTuru = hizmetTuru.trim();
+        this.sureDakika = sureDakika;
+        this.ucret = ucret;
+    }
+
+    public static Randevu yukle(
+            String id,
+            Hasta hasta,
+            Doktor doktor,
+            Sube sube,
+            String hizmetAdi,
+            String hizmetTuru,
+            int sureDakika,
+            BigDecimal ucret,
+            LocalDateTime baslangic,
+            RandevuDurumu durum) {
+        return new Randevu(id, hasta, doktor, sube, hizmetAdi, hizmetTuru, sureDakika, ucret, baslangic, durum);
+    }
+
     public void onayla() {
         gec(RandevuDurumu.ONAYLANDI, RandevuDurumu.ONAY_BEKLIYOR);
     }

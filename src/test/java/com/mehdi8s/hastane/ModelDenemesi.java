@@ -62,6 +62,7 @@ public final class ModelDenemesi {
         kontrol(hataVerir(randevu::onayla), "Ikinci onay gecersiz olmali.");
 
         RandevuServisiDenemesi.main(args);
+        DosyaDeposuDenemesi.main(args);
         System.out.println("Model denemesi gecti.");
     }
 

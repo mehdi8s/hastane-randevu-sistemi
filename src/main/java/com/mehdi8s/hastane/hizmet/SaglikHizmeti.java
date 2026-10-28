@@ -1,7 +1,6 @@
 package com.mehdi8s.hastane.hizmet;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 import java.util.UUID;
 
 public abstract class SaglikHizmeti {
@@ -11,6 +10,13 @@ public abstract class SaglikHizmeti {
     private final BigDecimal ucret;
 
     protected SaglikHizmeti(String ad, int sureDakika, BigDecimal ucret) {
+        this(UUID.randomUUID().toString(), ad, sureDakika, ucret);
+    }
+
+    protected SaglikHizmeti(String id, String ad, int sureDakika, BigDecimal ucret) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Hizmet kimligi bos olamaz.");
+        }
         if (ad == null || ad.isBlank()) {
             throw new IllegalArgumentException("Hizmet adi bos olamaz.");
         }
@@ -20,7 +26,7 @@ public abstract class SaglikHizmeti {
         if (ucret == null || ucret.signum() < 0) {
             throw new IllegalArgumentException("Hizmet ucreti negatif olamaz.");
         }
-        this.id = UUID.randomUUID().toString();
+        this.id = id.trim();
         this.ad = ad.trim();
         this.sureDakika = sureDakika;
         this.ucret = ucret;

@@ -12,6 +12,11 @@ public abstract class Calisan extends Kisi {
         this.kurum = Objects.requireNonNull(kurum, "Kurum bos olamaz.");
     }
 
+    protected Calisan(String id, String ad, String soyad, SaglikKurumu kurum) {
+        super(id, ad, soyad);
+        this.kurum = Objects.requireNonNull(kurum, "Kurum bos olamaz.");
+    }
+
     public SaglikKurumu getKurum() {
         return kurum;
     }

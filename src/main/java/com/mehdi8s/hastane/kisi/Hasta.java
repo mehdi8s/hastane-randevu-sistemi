@@ -5,6 +5,14 @@ public final class Hasta extends Kisi {
         super(ad, soyad);
     }
 
+    private Hasta(String id, String ad, String soyad) {
+        super(id, ad, soyad);
+    }
+
+    public static Hasta yukle(String id, String ad, String soyad) {
+        return new Hasta(id, ad, soyad);
+    }
+
     @Override
     public Rol rol() {
         return Rol.HASTA;

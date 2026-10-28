@@ -66,6 +66,17 @@ public final class RandevuServisi {
         randevu.iptalEt();
     }
 
+    public void yukle(Randevu randevu) {
+        Objects.requireNonNull(randevu, "Randevu bos olamaz.");
+        if (randevular.contains(randevu)) {
+            throw new IllegalArgumentException("Randevu zaten yuklu.");
+        }
+        if (randevu.yerKaplar()) {
+            cakismaKontrol(randevu.getHasta(), randevu.getDoktor(), randevu.getBaslangic(), randevu.bitis());
+        }
+        randevular.add(randevu);
+    }
+
     public List<Randevu> getRandevular() {
         return List.copyOf(randevular);
     }

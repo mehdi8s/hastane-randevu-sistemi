@@ -17,15 +17,26 @@ public final class Sube {
     private final List<SaglikHizmeti> hizmetler = new ArrayList<>();
 
     public Sube(String ad, String adres) {
+        this(UUID.randomUUID().toString(), ad, adres);
+    }
+
+    private Sube(String id, String ad, String adres) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Sube kimligi bos olamaz.");
+        }
         if (ad == null || ad.isBlank()) {
             throw new IllegalArgumentException("Sube adi bos olamaz.");
         }
         if (adres == null || adres.isBlank()) {
             throw new IllegalArgumentException("Sube adresi bos olamaz.");
         }
-        this.id = UUID.randomUUID().toString();
+        this.id = id.trim();
         this.ad = ad.trim();
         this.adres = adres.trim();
+    }
+
+    public static Sube yukle(String id, String ad, String adres) {
+        return new Sube(id, ad, adres);
     }
 
     public void bolumEkle(Bolum bolum) {

@@ -5,6 +5,14 @@ public final class Hastane extends SaglikKurumu {
         super(ad);
     }
 
+    private Hastane(String id, String ad) {
+        super(id, ad);
+    }
+
+    public static Hastane yukle(String id, String ad) {
+        return new Hastane(id, ad);
+    }
+
     @Override
     protected boolean yeniSubeKabulEder(int mevcutSubeSayisi) {
         return true;

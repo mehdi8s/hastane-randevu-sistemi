@@ -5,6 +5,14 @@ public final class Klinik extends SaglikKurumu {
         super(ad);
     }
 
+    private Klinik(String id, String ad) {
+        super(id, ad);
+    }
+
+    public static Klinik yukle(String id, String ad) {
+        return new Klinik(id, ad);
+    }
+
     @Override
     protected boolean yeniSubeKabulEder(int mevcutSubeSayisi) {
         return mevcutSubeSayisi == 0;

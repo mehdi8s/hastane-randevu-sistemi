@@ -8,13 +8,20 @@ public abstract class Kisi {
     private final String soyad;
 
     protected Kisi(String ad, String soyad) {
+        this(UUID.randomUUID().toString(), ad, soyad);
+    }
+
+    protected Kisi(String id, String ad, String soyad) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Kisi kimligi bos olamaz.");
+        }
         if (ad == null || ad.isBlank()) {
             throw new IllegalArgumentException("Ad bos olamaz.");
         }
         if (soyad == null || soyad.isBlank()) {
             throw new IllegalArgumentException("Soyad bos olamaz.");
         }
-        this.id = UUID.randomUUID().toString();
+        this.id = id.trim();
         this.ad = ad.trim();
         this.soyad = soyad.trim();
     }

@@ -8,6 +8,7 @@ import com.mehdi8s.hastane.zaman.ZamanAraligi;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 public final class Doktor extends Calisan {
     private final Sube sube;
@@ -16,12 +17,20 @@ public final class Doktor extends Calisan {
     private final List<ZamanAraligi> uygunluklar = new ArrayList<>();
 
     public Doktor(String ad, String soyad, SaglikKurumu kurum, Sube sube, Uzmanlik uzmanlik) {
-        super(ad, soyad, kurum);
+        this(UUID.randomUUID().toString(), ad, soyad, kurum, sube, uzmanlik);
+    }
+
+    private Doktor(String id, String ad, String soyad, SaglikKurumu kurum, Sube sube, Uzmanlik uzmanlik) {
+        super(id, ad, soyad, kurum);
         this.sube = Objects.requireNonNull(sube, "Sube bos olamaz.");
         this.uzmanlik = Objects.requireNonNull(uzmanlik, "Uzmanlik bos olamaz.");
         if (!kurum.getSubeler().contains(sube)) {
             throw new IllegalArgumentException("Doktorun subesi bu kuruma ait olmali.");
         }
+    }
+
+    public static Doktor yukle(String id, String ad, String soyad, SaglikKurumu kurum, Sube sube, Uzmanlik uzmanlik) {
+        return new Doktor(id, ad, soyad, kurum, sube, uzmanlik);
     }
 
     public void hizmetEkle(SaglikHizmeti hizmet) {

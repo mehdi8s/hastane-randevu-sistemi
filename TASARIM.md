@@ -33,8 +33,14 @@ Ortak zaman kavramı `ZamanAraligi` içindedir. Şube çalışma saati ve doktor
 
 Onay, red ve tamamlama ilgili doktora veya aynı kurumun yöneticisine aittir. İptali randevunun hastası da yapabilir. Başka doktor, sağlık personeli ve başka kurumun yöneticisi bu kayda dokunamaz.
 
+## Dosya deposu
+
+`SistemKaydi` kurumları, kişileri ve randevu servisini bir arada tutar. `DosyaDeposu` bu kaydı UTF-8 metin dosyasına yazar ve açılışta aynı kimliklerle geri kurar. Hastane çok şubeli, klinik tek şubeli kalır; çünkü yüklenen nesne yine `Hastane` veya `Klinik` sınıfındandır. Randevunun onay, red ve iptal durumu da dosyada durur. İptal edilmiş saat yeniden verilebilir, onaylanmış saat dolu kalır.
+
+Yeni nesne kendi kimliğini üretir. Dosyadan gelen nesne `yukle` metoduyla eski kimliğini korur. Böylece doktor, hasta ve randevu kapanıştan sonra da aynı kayıt olarak tanınır.
+
 ## Bilinçli olarak sonraki adıma bırakılanlar
 
-Kayıtların dosyada saklanması, giriş ekranı ve rollerin oturumla seçilmesi bu servisin üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
+Giriş ekranı ve rolün oturumla seçilmesi bu kaydın üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
 
 Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.

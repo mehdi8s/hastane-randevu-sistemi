@@ -11,10 +11,17 @@ public abstract class SaglikKurumu {
     private final List<Sube> subeler = new ArrayList<>();
 
     protected SaglikKurumu(String ad) {
+        this(UUID.randomUUID().toString(), ad);
+    }
+
+    protected SaglikKurumu(String id, String ad) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Kurum kimligi bos olamaz.");
+        }
         if (ad == null || ad.isBlank()) {
             throw new IllegalArgumentException("Kurum adi bos olamaz.");
         }
-        this.id = UUID.randomUUID().toString();
+        this.id = id.trim();
         this.ad = ad.trim();
     }
 

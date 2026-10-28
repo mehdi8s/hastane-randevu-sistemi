@@ -1,6 +1,5 @@
 package com.mehdi8s.hastane.kurum;
 
-import java.util.Objects;
 import java.util.UUID;
 
 public final class Bolum {
@@ -8,11 +7,22 @@ public final class Bolum {
     private final String ad;
 
     public Bolum(String ad) {
+        this(UUID.randomUUID().toString(), ad);
+    }
+
+    private Bolum(String id, String ad) {
+        if (id == null || id.isBlank()) {
+            throw new IllegalArgumentException("Bolum kimligi bos olamaz.");
+        }
         if (ad == null || ad.isBlank()) {
             throw new IllegalArgumentException("Bolum adi bos olamaz.");
         }
-        this.id = UUID.randomUUID().toString();
+        this.id = id.trim();
         this.ad = ad.trim();
+    }
+
+    public static Bolum yukle(String id, String ad) {
+        return new Bolum(id, ad);
     }
 
     public String getId() {
