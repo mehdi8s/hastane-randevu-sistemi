@@ -39,8 +39,14 @@ Onay, red ve tamamlama ilgili doktora veya aynı kurumun yöneticisine aittir. �
 
 Yeni nesne kendi kimliğini üretir. Dosyadan gelen nesne `yukle` metoduyla eski kimliğini korur. Böylece doktor, hasta ve randevu kapanıştan sonra da aynı kayıt olarak tanınır.
 
+## Giriş ekranı
+
+`GirisEkrani` kayıtlı kişileri listeler. `OturumAcici` seçilen nesnenin sınıfına göre oturum açar: `HastaOturumu`, `DoktorOturumu`, `YoneticiOturumu` veya `PersonelOturumu`. Doktor ve yönetici ortak komutları `YetkiliOturum` üzerinden alır; fark, gördükleri randevu listesindedir. Personelin onay komutu yoktur.
+
+Hasta talebi, onay, red ve iptal yine `RandevuServisi` içinden geçer. Ekran kuralı tekrar etmez. İşlem kaydı değiştirirse `KayitSaklayici` dosyayı yeniden yazar.
+
 ## Bilinçli olarak sonraki adıma bırakılanlar
 
-Giriş ekranı ve rolün oturumla seçilmesi bu kaydın üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
+Yöneticinin ekrandan kurum, bölüm, çalışma saati, hizmet ve doktor uygunluğu tanımlaması bu menünün üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
 
 Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.

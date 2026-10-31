@@ -63,6 +63,7 @@ public final class ModelDenemesi {
 
         RandevuServisiDenemesi.main(args);
         DosyaDeposuDenemesi.main(args);
+        EkranDenemesi.main(args);
         System.out.println("Model denemesi gecti.");
     }
 
