@@ -22,6 +22,7 @@ public final class EkranDenemesi {
         try {
             ornekKayitDosyadaDurur();
             rollerKendiMenuleriniKullanir();
+            yoneticiKurumuTanimlar();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -77,6 +78,34 @@ public final class EkranDenemesi {
         kontrol(randevular.get(0).getDurum() == RandevuDurumu.IPTAL, "Onaylanan randevu hasta tarafindan iptal edilmeli.");
         kontrol(randevular.get(1).getDurum() == RandevuDurumu.REDDEDILDI, "Ikinci randevu yonetici tarafindan reddedilmeli.");
         kontrol(kayitSayisi[0] == 5, "Yalnizca durumu degisen islemler kaydedilmeli.");
+    }
+
+    private static void yoneticiKurumuTanimlar() {
+        SistemKaydi kayit = OrnekSistem.olustur();
+        int[] kayitSayisi = {0};
+        SenaryoKonsolu konsol = new SenaryoKonsolu(
+                "4",
+                "6", "Ilce", "Adapazari",
+                "8", "1", "2", "09:00", "17:00",
+                "7", "1", "Radyoloji",
+                "9", "1", "3", "Kan tahlili", "10", "200.00",
+                "10", "1", "2",
+                "11", "1", "3", "09:00", "12:00",
+                "11", "1", "2", "09:00", "12:00",
+                "0",
+                "0");
+        new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Tanim senaryosu artmis veya eksik kaldi.");
+        kontrol(konsol.metin().contains("subenin calisma saati icinde olmali"),
+                "Sube saati disindaki uygunluk ekranda reddedilmeli.");
+        kontrol(kayit.getKurumlar().get(0).getSubeler().size() == 2, "Hastane ikinci subeyi almali.");
+        kontrol(kayit.getKurumlar().get(0).getSubeler().get(0).getBolumler().size() == 2,
+                "Yeni bolum subeye eklenmeli.");
+        kontrol(kayit.getKurumlar().get(0).getSubeler().get(0).getHizmetler().size() == 2,
+                "Laboratuvar hizmeti subeye eklenmeli.");
+        kontrol(kayit.getDoktorlar().get(0).getHizmetler().size() == 2, "Yeni hizmet doktora eklenmeli.");
+        kontrol(kayit.getDoktorlar().get(0).getUygunluklar().size() == 2, "Sali uygunlugu eklenmeli.");
+        kontrol(kayitSayisi[0] == 6, "Basarisiz uygunluk kaydedilmemeli.");
     }
 
     private static void kontrol(boolean kosul, String mesaj) {

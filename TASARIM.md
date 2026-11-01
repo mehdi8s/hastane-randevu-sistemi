@@ -45,8 +45,12 @@ Yeni nesne kendi kimliğini üretir. Dosyadan gelen nesne `yukle` metoduyla eski
 
 Hasta talebi, onay, red ve iptal yine `RandevuServisi` içinden geçer. Ekran kuralı tekrar etmez. İşlem kaydı değiştirirse `KayitSaklayici` dosyayı yeniden yazar.
 
+## Yönetici tanımları
+
+`YoneticiOturumu` kendi kurumuna şube, bölüm, çalışma saati ve hizmet ekler. Hastane ikinci şubeyi kabul eder; klinik `yeniSubeKabulEder` yüzünden reddeder. Yeni hizmet `GenelMuayene`, `Radyoloji` veya `Laboratuvar` olarak kurulur. Doktorun verdiği hizmet ve uygunluk da bu menüden yazılır; uygunluk şubenin çalışma saatinin dışındaysa `Doktor` reddeder. Ekran bu kuralı yeniden yazmaz.
+
 ## Bilinçli olarak sonraki adıma bırakılanlar
 
-Yöneticinin ekrandan kurum, bölüm, çalışma saati, hizmet ve doktor uygunluğu tanımlaması bu menünün üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
+Yöneticinin ekrandan yeni doktor, hasta ve personel kaydı bu menünün üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
 
 Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.

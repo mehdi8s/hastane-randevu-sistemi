@@ -32,6 +32,6 @@ Model denemesi gecti.
 java -cp out com.mehdi8s.hastane.ekran.Uygulama
 ```
 
-Listeden kişi seçilir. Hasta randevu ister ve iptal eder. Doktor ile yönetici onaylar, reddeder veya tamamlar. Sağlık personeli yalnızca kendi şubesindeki randevuları görür. Doktorun uygun olduğu ilk örnek saat `2026-11-02 09:00` biçimindedir.
+Listeden kişi seçilir. Hasta randevu ister ve iptal eder. Doktor ile yönetici onaylar, reddeder veya tamamlar. Sağlık personeli yalnızca kendi şubesindeki randevuları görür. Yönetici ayrıca şube, bölüm, çalışma saati, hizmet ve doktor uygunluğu tanımlar. Doktorun uygun olduğu ilk örnek saat `2026-11-02 09:00` biçimindedir.
 
 `pom.xml` Maven içindir. Bu makinede Maven kurulu olmak zorunda değildir.

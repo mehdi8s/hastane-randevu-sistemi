@@ -74,16 +74,37 @@ public abstract class Oturum {
     }
 
     protected final int siraOku(Konsol konsol, int boyut, String istem) {
-        String metin = konsol.oku(istem);
-        int sira;
-        try {
-            sira = Integer.parseInt(metin);
-        } catch (NumberFormatException ex) {
-            throw new IllegalArgumentException("Sayi girilmeli.");
-        }
+        int sira = sayiOku(konsol, istem);
         if (sira < 1 || sira > boyut) {
             throw new IllegalArgumentException("Gecersiz sira.");
         }
         return sira - 1;
+    }
+
+    protected final int sayiOku(Konsol konsol, String istem) {
+        String metin = konsol.oku(istem);
+        try {
+            return Integer.parseInt(metin);
+        } catch (NumberFormatException ex) {
+            throw new IllegalArgumentException("Sayi girilmeli.");
+        }
+    }
+
+    protected final String doluOku(Konsol konsol, String istem) {
+        String metin = konsol.oku(istem);
+        if (metin == null || metin.isBlank()) {
+            throw new IllegalArgumentException(istem + " bos olamaz.");
+        }
+        return metin.trim();
+    }
+
+    protected final <T> T listedanSec(Konsol konsol, List<T> liste, String bosMesaj, String istem) {
+        if (liste.isEmpty()) {
+            throw new IllegalArgumentException(bosMesaj);
+        }
+        for (int i = 0; i < liste.size(); i++) {
+            konsol.yaz((i + 1) + ") " + liste.get(i));
+        }
+        return liste.get(siraOku(konsol, liste.size(), istem));
     }
 }
