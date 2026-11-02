@@ -6,6 +6,9 @@ import com.mehdi8s.hastane.hizmet.Radyoloji;
 import com.mehdi8s.hastane.hizmet.SaglikHizmeti;
 import com.mehdi8s.hastane.kayit.SistemKaydi;
 import com.mehdi8s.hastane.kisi.Doktor;
+import com.mehdi8s.hastane.kisi.Hasta;
+import com.mehdi8s.hastane.kisi.SaglikPersoneli;
+import com.mehdi8s.hastane.kisi.Uzmanlik;
 import com.mehdi8s.hastane.kisi.Yonetici;
 import com.mehdi8s.hastane.kurum.Bolum;
 import com.mehdi8s.hastane.kurum.SaglikKurumu;
@@ -40,6 +43,9 @@ public final class YoneticiOturumu extends YetkiliOturum {
         konsol.yaz("9) Hizmet ekle");
         konsol.yaz("10) Doktora hizmet ekle");
         konsol.yaz("11) Doktora uygunluk ekle");
+        konsol.yaz("12) Hasta ekle");
+        konsol.yaz("13) Doktor ekle");
+        konsol.yaz("14) Personel ekle");
     }
 
     @Override
@@ -70,6 +76,18 @@ public final class YoneticiOturumu extends YetkiliOturum {
             }
             case "11" -> {
                 uygunlukEkle(konsol);
+                yield true;
+            }
+            case "12" -> {
+                hastaEkle(konsol);
+                yield true;
+            }
+            case "13" -> {
+                doktorEkle(konsol);
+                yield true;
+            }
+            case "14" -> {
+                personelEkle(konsol);
                 yield true;
             }
             default -> false;
@@ -136,6 +154,35 @@ public final class YoneticiOturumu extends YetkiliOturum {
         doktor.uygunlukEkle(aralikOku(konsol));
         sakla();
         konsol.yaz("Uygunluk eklendi.");
+    }
+
+    private void hastaEkle(Konsol konsol) {
+        Hasta hasta = new Hasta(doluOku(konsol, "Ad"), doluOku(konsol, "Soyad"));
+        kayit().hastaEkle(hasta);
+        sakla();
+        konsol.yaz("Hasta eklendi: " + hasta.tamAd());
+    }
+
+    private void doktorEkle(Konsol konsol) {
+        String ad = doluOku(konsol, "Ad");
+        String soyad = doluOku(konsol, "Soyad");
+        Sube sube = subeSec(konsol);
+        Uzmanlik uzmanlik = new Uzmanlik(doluOku(konsol, "Uzmanlik"));
+        Doktor doktor = new Doktor(ad, soyad, kurum(), sube, uzmanlik);
+        kayit().doktorEkle(doktor);
+        sakla();
+        konsol.yaz("Doktor eklendi: " + doktor.tamAd());
+    }
+
+    private void personelEkle(Konsol konsol) {
+        String ad = doluOku(konsol, "Ad");
+        String soyad = doluOku(konsol, "Soyad");
+        Sube sube = subeSec(konsol);
+        String gorev = doluOku(konsol, "Gorev");
+        SaglikPersoneli personel = new SaglikPersoneli(ad, soyad, kurum(), sube, gorev);
+        kayit().personelEkle(personel);
+        sakla();
+        konsol.yaz("Personel eklendi: " + personel.tamAd());
     }
 
     private Sube subeSec(Konsol konsol) {

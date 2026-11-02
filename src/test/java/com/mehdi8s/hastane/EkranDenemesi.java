@@ -23,6 +23,7 @@ public final class EkranDenemesi {
             ornekKayitDosyadaDurur();
             rollerKendiMenuleriniKullanir();
             yoneticiKurumuTanimlar();
+            yoneticiKisiKaydeder();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -106,6 +107,35 @@ public final class EkranDenemesi {
         kontrol(kayit.getDoktorlar().get(0).getHizmetler().size() == 2, "Yeni hizmet doktora eklenmeli.");
         kontrol(kayit.getDoktorlar().get(0).getUygunluklar().size() == 2, "Sali uygunlugu eklenmeli.");
         kontrol(kayitSayisi[0] == 6, "Basarisiz uygunluk kaydedilmemeli.");
+    }
+
+    private static void yoneticiKisiKaydeder() {
+        SistemKaydi kayit = OrnekSistem.olustur();
+        int[] kayitSayisi = {0};
+        SenaryoKonsolu konsol = new SenaryoKonsolu(
+                "4",
+                "12", "", "Demir",
+                "12", "Ali", "Demir",
+                "13", "Can", "Kaya", "1", "Kardiyoloji",
+                "14", "Deniz", "Koc", "1", "Hemsire",
+                "0",
+                "2",
+                "2",
+                "0",
+                "0");
+        new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Kisi senaryosu artmis veya eksik kaldi.");
+        kontrol(konsol.metin().contains("Ad bos olamaz."), "Bos hasta adi reddedilmeli.");
+        kontrol(konsol.metin().contains("Ali Demir (HASTA)"), "Yeni hasta girise dusmeli.");
+        kontrol(kayit.getHastalar().size() == 2, "Hasta sisteme eklenmeli.");
+        kontrol(kayit.getDoktorlar().size() == 2, "Doktor sisteme eklenmeli.");
+        kontrol(kayit.getDoktorlar().get(1).getUzmanlik().getAd().equals("Kardiyoloji"),
+                "Doktorun uzmanligi korunmali.");
+        kontrol(kayit.getPersoneller().size() == 2, "Personel sisteme eklenmeli.");
+        kontrol(kayit.getPersoneller().get(1).getGorev().equals("Hemsire"), "Personel gorevi korunmali.");
+        kontrol(kayit.getDoktorlar().get(1).getKurum().equals(kayit.getKurumlar().get(0)),
+                "Yeni doktor yonetici kurumuna baglanmali.");
+        kontrol(kayitSayisi[0] == 3, "Bos ad kaydedilmemeli.");
     }
 
     private static void kontrol(boolean kosul, String mesaj) {
