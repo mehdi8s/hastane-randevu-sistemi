@@ -46,6 +46,7 @@ public final class YoneticiOturumu extends YetkiliOturum {
         konsol.yaz("12) Hasta ekle");
         konsol.yaz("13) Doktor ekle");
         konsol.yaz("14) Personel ekle");
+        konsol.yaz("15) Yonetici ekle");
     }
 
     @Override
@@ -88,6 +89,10 @@ public final class YoneticiOturumu extends YetkiliOturum {
             }
             case "14" -> {
                 personelEkle(konsol);
+                yield true;
+            }
+            case "15" -> {
+                yoneticiEkle(konsol);
                 yield true;
             }
             default -> false;
@@ -183,6 +188,13 @@ public final class YoneticiOturumu extends YetkiliOturum {
         kayit().personelEkle(personel);
         sakla();
         konsol.yaz("Personel eklendi: " + personel.tamAd());
+    }
+
+    private void yoneticiEkle(Konsol konsol) {
+        Yonetici yonetici = new Yonetici(doluOku(konsol, "Ad"), doluOku(konsol, "Soyad"), kurum());
+        kayit().yoneticiEkle(yonetici);
+        sakla();
+        konsol.yaz("Yonetici eklendi: " + yonetici.tamAd());
     }
 
     private Sube subeSec(Konsol konsol) {

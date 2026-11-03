@@ -3,6 +3,9 @@ package com.mehdi8s.hastane;
 import com.mehdi8s.hastane.ekran.GirisEkrani;
 import com.mehdi8s.hastane.ekran.Konsol;
 import com.mehdi8s.hastane.ekran.OrnekSistem;
+import com.mehdi8s.hastane.ekran.SunumSenaryosu;
+import com.mehdi8s.hastane.kurum.Klinik;
+import com.mehdi8s.hastane.kurum.Sube;
 import com.mehdi8s.hastane.kayit.DosyaDeposu;
 import com.mehdi8s.hastane.kayit.SistemKaydi;
 import com.mehdi8s.hastane.randevu.Randevu;
@@ -24,6 +27,8 @@ public final class EkranDenemesi {
             rollerKendiMenuleriniKullanir();
             yoneticiKurumuTanimlar();
             yoneticiKisiKaydeder();
+            yoneticiIkinciYoneticiKaydeder();
+            sunumSenaryosuHazirDurur();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -136,6 +141,66 @@ public final class EkranDenemesi {
         kontrol(kayit.getDoktorlar().get(1).getKurum().equals(kayit.getKurumlar().get(0)),
                 "Yeni doktor yonetici kurumuna baglanmali.");
         kontrol(kayitSayisi[0] == 3, "Bos ad kaydedilmemeli.");
+    }
+
+    private static void yoneticiIkinciYoneticiKaydeder() {
+        SistemKaydi kayit = OrnekSistem.olustur();
+        int[] kayitSayisi = {0};
+        SenaryoKonsolu konsol = new SenaryoKonsolu(
+                "4",
+                "15", "", "Aslan",
+                "15", "Kemal", "Aslan",
+                "0",
+                "5",
+                "1",
+                "0",
+                "0");
+        new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Yonetici senaryosu artmis veya eksik kaldi.");
+        kontrol(konsol.metin().contains("Ad bos olamaz."), "Bos yonetici adi reddedilmeli.");
+        kontrol(konsol.metin().contains("Kemal Aslan (YONETICI)"), "Ikinci yonetici girise dusmeli.");
+        kontrol(kayit.getYoneticiler().size() == 2, "Ikinci yonetici sisteme eklenmeli.");
+        kontrol(kayit.getYoneticiler().get(1).getKurum().equals(kayit.getKurumlar().get(0)),
+                "Yeni yonetici ayni kuruma baglanmali.");
+        kontrol(kayitSayisi[0] == 1, "Bos yonetici adi kaydedilmemeli.");
+    }
+
+    private static void sunumSenaryosuHazirDurur() throws IOException {
+        SistemKaydi kayit = SunumSenaryosu.olustur();
+        kontrol(kayit.getKurumlar().size() == 2, "Sunumda hastane ve klinik olmali.");
+        kontrol(kayit.getKurumlar().get(0).getSubeler().size() == 2, "Hastanenin iki subesi olmali.");
+        Klinik klinik = (Klinik) kayit.getKurumlar().get(1);
+        kontrol(hataVerir(() -> klinik.subeEkle(new Sube("Ikinci", "Serdivan"))),
+                "Klinik ikinci subeyi reddetmeli.");
+        kontrol(kayit.getYoneticiler().size() == 3, "Hastanede iki, klinikte bir yonetici olmali.");
+        kontrol(kayit.getRandevuServisi().getRandevular().get(0).getDurum() == RandevuDurumu.ONAY_BEKLIYOR,
+                "Ilk randevu onay beklemeli.");
+        kontrol(kayit.getRandevuServisi().getRandevular().get(1).getDurum() == RandevuDurumu.ONAYLANDI,
+                "Ikinci randevu onaylanmis olmali.");
+
+        Path dosya = Files.createTempDirectory("sunum-kayit").resolve("sistem.kayit");
+        DosyaDeposu depo = new DosyaDeposu();
+        depo.kaydet(kayit, dosya);
+        SistemKaydi yuklenen = depo.yukle(dosya);
+        kontrol(yuklenen.getKurumlar().get(0).getSubeler().size() == 2, "Iki sube dosyadan donmeli.");
+        kontrol(yuklenen.getRandevuServisi().getRandevular().get(1).getDurum() == RandevuDurumu.ONAYLANDI,
+                "Onayli randevu dosyadan donmeli.");
+
+        SenaryoKonsolu konsol = new SenaryoKonsolu("7", "2", "1", "0", "0");
+        new GirisEkrani(yuklenen, () -> {
+        }).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Sunum senaryosu artmis veya eksik kaldi.");
+        kontrol(yuklenen.getRandevuServisi().getRandevular().get(0).getDurum() == RandevuDurumu.ONAYLANDI,
+                "Hastanedeki ikinci yonetici onayi verebilmeli.");
+    }
+
+    private static boolean hataVerir(Runnable islem) {
+        try {
+            islem.run();
+            return false;
+        } catch (RuntimeException ex) {
+            return true;
+        }
     }
 
     private static void kontrol(boolean kosul, String mesaj) {

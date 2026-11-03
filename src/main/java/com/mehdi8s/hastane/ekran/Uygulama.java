@@ -20,7 +20,7 @@ public final class Uygulama {
             if (Files.exists(dosya)) {
                 return depo.yukle(dosya);
             }
-            SistemKaydi kayit = OrnekSistem.olustur();
+            SistemKaydi kayit = SunumSenaryosu.olustur();
             depo.kaydet(kayit, dosya);
             return kayit;
         } catch (IOException ex) {
