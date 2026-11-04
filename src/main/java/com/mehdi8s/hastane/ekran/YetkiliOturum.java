@@ -24,7 +24,7 @@ public abstract class YetkiliOturum extends Oturum {
     protected boolean komutCalistir(String secim, Konsol konsol) {
         return switch (secim) {
             case "1" -> {
-                listeYaz(konsol, gorevRandevulari());
+                listeYaz(konsol, durumaGore(konsol, gorevRandevulari()));
                 yield true;
             }
             case "2" -> uygula(konsol, (randevu) -> servis().onayla(kisi(), randevu));

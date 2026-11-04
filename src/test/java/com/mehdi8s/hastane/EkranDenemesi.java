@@ -29,6 +29,7 @@ public final class EkranDenemesi {
             yoneticiKisiKaydeder();
             yoneticiIkinciYoneticiKaydeder();
             sunumSenaryosuHazirDurur();
+            randevuDurumaGoreSuzulur();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -53,10 +54,10 @@ public final class EkranDenemesi {
                 "1", "1", "1", "2026-11-02 09:00",
                 "1", "1", "1", "2026-11-02 09:00",
                 "1", "1", "1", "2026-11-02 09:20",
-                "2",
+                "2", "0",
                 "0",
                 "3",
-                "1",
+                "1", "0",
                 "2",
                 "0",
                 "2",
@@ -125,7 +126,7 @@ public final class EkranDenemesi {
                 "14", "Deniz", "Koc", "1", "Hemsire",
                 "0",
                 "2",
-                "2",
+                "2", "0",
                 "0",
                 "0");
         new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
@@ -152,7 +153,7 @@ public final class EkranDenemesi {
                 "15", "Kemal", "Aslan",
                 "0",
                 "5",
-                "1",
+                "1", "0",
                 "0",
                 "0");
         new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
@@ -192,6 +193,30 @@ public final class EkranDenemesi {
         kontrol(konsol.kalan() == 0, "Sunum senaryosu artmis veya eksik kaldi.");
         kontrol(yuklenen.getRandevuServisi().getRandevular().get(0).getDurum() == RandevuDurumu.ONAYLANDI,
                 "Hastanedeki ikinci yonetici onayi verebilmeli.");
+    }
+
+    private static void randevuDurumaGoreSuzulur() {
+        SistemKaydi kayit = SunumSenaryosu.olustur();
+        SenaryoKonsolu konsol = new SenaryoKonsolu(
+                "6",
+                "1", "1",
+                "1", "2",
+                "1", "0",
+                "1", "9",
+                "0",
+                "1",
+                "2", "1",
+                "2", "2",
+                "0",
+                "0");
+        new GirisEkrani(kayit, () -> {
+        }).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Durum senaryosu artmis veya eksik kaldi.");
+        String metin = konsol.metin();
+        kontrol(metin.contains("Özge Çelik") && metin.contains("ONAY_BEKLIYOR"), "Onay bekleyen randevu listelenmeli.");
+        kontrol(metin.contains("Ali Demir") && metin.contains("ONAYLANDI"), "Onayli randevu listelenmeli.");
+        kontrol(metin.contains("Gecersiz durum."), "Tanimli olmayan durum reddedilmeli.");
+        kontrol(metin.contains("Kayit yok."), "Hastanin onayli randevusu yokken liste bos olmali.");
     }
 
     private static boolean hataVerir(Runnable islem) {

@@ -3,6 +3,7 @@ package com.mehdi8s.hastane.ekran;
 import com.mehdi8s.hastane.kayit.SistemKaydi;
 import com.mehdi8s.hastane.kisi.Kisi;
 import com.mehdi8s.hastane.randevu.Randevu;
+import com.mehdi8s.hastane.randevu.RandevuDurumu;
 import com.mehdi8s.hastane.randevu.RandevuServisi;
 
 import java.util.List;
@@ -56,6 +57,23 @@ public abstract class Oturum {
 
     protected final void sakla() {
         saklayici.kaydet();
+    }
+
+    protected final List<Randevu> durumaGore(Konsol konsol, List<Randevu> kaynak) {
+        konsol.yaz("0) Tumu");
+        RandevuDurumu[] durumlar = RandevuDurumu.values();
+        for (int i = 0; i < durumlar.length; i++) {
+            konsol.yaz((i + 1) + ") " + durumlar[i]);
+        }
+        int secim = sayiOku(konsol, "Durum");
+        if (secim == 0) {
+            return kaynak;
+        }
+        if (secim < 1 || secim > durumlar.length) {
+            throw new IllegalArgumentException("Gecersiz durum.");
+        }
+        RandevuDurumu durum = durumlar[secim - 1];
+        return kaynak.stream().filter(randevu -> randevu.getDurum() == durum).toList();
     }
 
     protected final void listeYaz(Konsol konsol, List<Randevu> liste) {

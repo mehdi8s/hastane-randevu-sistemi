@@ -55,8 +55,10 @@ Aynı menüden hasta, doktor, personel ve ikinci yönetici kaydı da açılır. 
 
 `SunumSenaryosu` ilk açılışta hazır bir dünya kurar. `Şehir Hastanesi` iki şubelidir; `Mahalle Kliniği` tek şubede kalır. Hastanede iki yönetici vardır. Özge’nin randevusu onay bekler, Ali’nin randevusu onaylanmıştır. Klinik yöneticisi ikinci şube ekleyemez.
 
+Liste komutu durum sorar: tümü, onay bekliyor, onaylandı, reddedildi, tamamlandı veya iptal. Süzgeç yalnızca görünen listeyi keser; onay ve iptal hâlâ tam görev listesi üzerinden gider. Sunum sırası `SUNUM.md` dosyasındadır.
+
 ## Bilinçli olarak sonraki adıma bırakılanlar
 
-Randevu listesinin duruma göre süzülmesi ve kısa bir sunum notu bu ekranın üstüne eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
+Alan modelinin sınıf diyagramı sunum notunun yanına eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
 
 Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.

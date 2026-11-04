@@ -30,7 +30,7 @@ public final class HastaOturumu extends Oturum {
                 yield true;
             }
             case "2" -> {
-                listeYaz(konsol, kendiRandevulari());
+                listeYaz(konsol, durumaGore(konsol, kendiRandevulari()));
                 yield true;
             }
             case "3" -> {

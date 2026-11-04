@@ -19,9 +19,9 @@ public final class PersonelOturumu extends Oturum {
             return false;
         }
         SaglikPersoneli personel = (SaglikPersoneli) kisi();
-        listeYaz(konsol, servis().getRandevular().stream()
+        listeYaz(konsol, durumaGore(konsol, servis().getRandevular().stream()
                 .filter(randevu -> randevu.getSube().equals(personel.getSube()))
-                .toList());
+                .toList()));
         return true;
     }
 }
