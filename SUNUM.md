@@ -9,6 +9,34 @@ Süre: yaklaşık 5 dakika. Ekran, sınıf yapısını göstermek içindir.
 3. Randevu yalnızca `RandevuServisi` üzerinden doğar. Uygunluk, şube saati ve çakışma orada reddedilir.
 4. Durum geçişi `Randevu` içindedir: onay bekleyen kayıt tamamlanamaz.
 
+## Sınıf diyagramı
+
+Sunumda bu iki ağacı göstermek yeter. Ayrıntı `TASARIM.md` dosyasındadır.
+
+```mermaid
+classDiagram
+    SaglikKurumu <|-- Hastane
+    SaglikKurumu <|-- Klinik
+    SaglikKurumu o-- Sube
+    SaglikHizmeti <|-- GenelMuayene
+    SaglikHizmeti <|-- Radyoloji
+    SaglikHizmeti <|-- Laboratuvar
+    Kisi <|-- Hasta
+    Kisi <|-- Calisan
+    Calisan <|-- Doktor
+    Calisan <|-- SaglikPersoneli
+    Calisan <|-- Yonetici
+    RandevuServisi o-- Randevu
+    Randevu --> Hasta
+    Randevu --> Doktor
+    Oturum <|-- HastaOturumu
+    Oturum <|-- YetkiliOturum
+    YetkiliOturum <|-- DoktorOturumu
+    YetkiliOturum <|-- YoneticiOturumu
+```
+
+`Hastane` ile `Klinik` farkı `yeniSubeKabulEder` gövdesindedir. Ekran farkı `OturumAcici` içindeki `instanceof` ayrımıdır.
+
 ## Ekran sırası
 
 Program klasöründe `sistem.kayit` yoksa sunum dünyası kurulur. Varsa dosyayı silip yeniden açın.

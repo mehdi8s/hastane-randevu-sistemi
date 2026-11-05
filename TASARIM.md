@@ -23,6 +23,88 @@ Reddedilen, tamamlanan ve iptal edilen kayıt yeniden onaylanamaz.
 
 Ortak zaman kavramı `ZamanAraligi` içindedir. Şube çalışma saati ve doktor uygunluğu aynı sınıftır. Aralık aynı güne ait değilse çakışmaz. Bir aralık diğerini ancak aynı günde ve sınırların içindeyse kapsar.
 
+## Sınıf diyagramı
+
+Alan modeli üç kalıtım ağacı ve bir randevu servisi etrafında durur. `Hastane` ile `Klinik` aynı `subeEkle` çağrısını farklı yanıtlar. `DoktorOturumu` ile `YoneticiOturumu` aynı yetkili komutları paylaşır; gördükleri randevu listesi farklıdır.
+
+```mermaid
+classDiagram
+    class SaglikKurumu {
+        <<abstract>>
+        +subeEkle(Sube)
+        #yeniSubeKabulEder(int)*
+        +kurumTuru()*
+    }
+    SaglikKurumu <|-- Hastane
+    SaglikKurumu <|-- Klinik
+    SaglikKurumu "1" o-- "*" Sube
+    Sube "*" o-- "*" Bolum
+    Sube "*" o-- "*" ZamanAraligi
+    Sube "*" o-- "*" SaglikHizmeti
+
+    class SaglikHizmeti {
+        <<abstract>>
+        +hizmetTuru()*
+        +sureDakika
+        +ucret
+    }
+    SaglikHizmeti <|-- GenelMuayene
+    SaglikHizmeti <|-- Radyoloji
+    SaglikHizmeti <|-- Laboratuvar
+
+    class Kisi {
+        <<abstract>>
+        +rol()*
+        +tamAd()
+    }
+    Kisi <|-- Hasta
+    Kisi <|-- Calisan
+    Calisan <|-- Doktor
+    Calisan <|-- SaglikPersoneli
+    Calisan <|-- Yonetici
+    Calisan --> SaglikKurumu
+    Doktor --> Sube
+    Doktor --> Uzmanlik
+    Doktor --> SaglikHizmeti
+    Doktor --> ZamanAraligi
+    SaglikPersoneli --> Sube
+
+    class Randevu {
+        -durum : RandevuDurumu
+        +onayla()
+        +reddet()
+        +tamamla()
+        +iptalEt()
+        +yerKaplar()
+    }
+    Randevu --> Hasta
+    Randevu --> Doktor
+    Randevu --> Sube
+    Randevu --> RandevuDurumu
+    RandevuServisi "1" o-- "*" Randevu
+    RandevuServisi ..> Hasta : olustur
+    RandevuServisi ..> Doktor : uygunluk ve cakisma
+```
+
+```mermaid
+classDiagram
+    class Oturum {
+        <<abstract>>
+        +calistir(Konsol)
+        #durumaGore()
+    }
+    Oturum <|-- HastaOturumu
+    Oturum <|-- PersonelOturumu
+    Oturum <|-- YetkiliOturum
+    YetkiliOturum <|-- DoktorOturumu
+    YetkiliOturum <|-- YoneticiOturumu
+    GirisEkrani --> OturumAcici
+    OturumAcici ..> Oturum : kisi.sinifina gore
+    Oturum --> SistemKaydi
+    SistemKaydi --> RandevuServisi
+    DosyaDeposu ..> SistemKaydi
+```
+
 ## Randevu servisi
 
 `RandevuServisi` yeni kaydın tek girişidir. Talep kabul edilmeden önce üç kural aranır:
@@ -59,6 +141,6 @@ Liste komutu durum sorar: tümü, onay bekliyor, onaylandı, reddedildi, tamamla
 
 ## Bilinçli olarak sonraki adıma bırakılanlar
 
-Alan modelinin sınıf diyagramı sunum notunun yanına eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
+Randevu durum geçişinin diyagramı sunum notuna eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
 
 Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.
