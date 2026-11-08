@@ -19,7 +19,20 @@ Dört grup vardır.
 - onay bekliyor → onaylandı, reddedildi veya iptal
 - onaylandı → tamamlandı veya iptal
 
-Reddedilen, tamamlanan ve iptal edilen kayıt yeniden onaylanamaz.
+Reddedilen, tamamlanan ve iptal edilen kayıt yeniden onaylanamaz. Saati dolduran durumlar onay bekleyen, onaylanan ve tamamlanandır; reddedilen ve iptal edilen saat yeniden verilebilir.
+
+```mermaid
+stateDiagram-v2
+    [*] --> ONAY_BEKLIYOR : olustur
+    ONAY_BEKLIYOR --> ONAYLANDI : onayla
+    ONAY_BEKLIYOR --> REDDEDILDI : reddet
+    ONAY_BEKLIYOR --> IPTAL : iptalEt
+    ONAYLANDI --> TAMAMLANDI : tamamla
+    ONAYLANDI --> IPTAL : iptalEt
+    REDDEDILDI --> [*]
+    TAMAMLANDI --> [*]
+    IPTAL --> [*]
+```
 
 Ortak zaman kavramı `ZamanAraligi` içindedir. Şube çalışma saati ve doktor uygunluğu aynı sınıftır. Aralık aynı güne ait değilse çakışmaz. Bir aralık diğerini ancak aynı günde ve sınırların içindeyse kapsar.
 
@@ -139,8 +152,4 @@ Aynı menüden hasta, doktor, personel ve ikinci yönetici kaydı da açılır. 
 
 Liste komutu durum sorar: tümü, onay bekliyor, onaylandı, reddedildi, tamamlandı veya iptal. Süzgeç yalnızca görünen listeyi keser; onay ve iptal hâlâ tam görev listesi üzerinden gider. Sunum sırası `SUNUM.md` dosyasındadır.
 
-## Bilinçli olarak sonraki adıma bırakılanlar
-
-Randevu durum geçişinin diyagramı sunum notuna eklenecektir. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
-
-Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar.
+Sınıf adları ASCII yazılmıştır (`SaglikKurumu`). Sunumda bunlar Sağlık Kurumu olarak anlatılır. Türkçe karakterli dosya adından kaçınmak derlemeyi sade tutar. `Randevu` kurucusu durum geçişini bilir; saati ve yetkiyi servis denetler.
