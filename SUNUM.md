@@ -61,7 +61,7 @@ java -cp out com.mehdi8s.hastane.ekran.Uygulama
 ```
 
 1. Selin Arslan: randevuları duruma göre listele. `1` onay bekleyen Özge’yi, `2` onaylı Ali’yi gösterir.
-2. Kemal Aslan: Özge’nin randevusunu onayla. İkinci yönetici aynı kurumda yetkilidir.
+2. Kemal Aslan: onay listesinde yalnız Özge görünür. Ali zaten onaylı olduğu için bu listede yoktur.
 3. Leyla Koç: şube eklemeyi deneyin. Klinik ikinci şubeyi reddeder.
 4. Özge Çelik: `2026-11-02 09:20` için yeni randevu. `09:00` Ayşe’de doludur.
 

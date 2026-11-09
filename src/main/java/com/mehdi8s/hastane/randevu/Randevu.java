@@ -113,6 +113,22 @@ public final class Randevu {
         gec(RandevuDurumu.IPTAL, RandevuDurumu.ONAY_BEKLIYOR, RandevuDurumu.ONAYLANDI);
     }
 
+    public boolean onayKabulEder() {
+        return durumBu(RandevuDurumu.ONAY_BEKLIYOR);
+    }
+
+    public boolean redKabulEder() {
+        return durumBu(RandevuDurumu.ONAY_BEKLIYOR);
+    }
+
+    public boolean tamamlaKabulEder() {
+        return durumBu(RandevuDurumu.ONAYLANDI);
+    }
+
+    public boolean iptalKabulEder() {
+        return durumBu(RandevuDurumu.ONAY_BEKLIYOR, RandevuDurumu.ONAYLANDI);
+    }
+
     public LocalDateTime bitis() {
         return baslangic.plusMinutes(sureDakika);
     }
@@ -186,12 +202,18 @@ public final class Randevu {
     }
 
     private void gec(RandevuDurumu hedef, RandevuDurumu... beklenen) {
+        if (!durumBu(beklenen)) {
+            throw new IllegalStateException(durum + " durumundan " + hedef + " durumuna gecilemez.");
+        }
+        durum = hedef;
+    }
+
+    private boolean durumBu(RandevuDurumu... beklenen) {
         for (RandevuDurumu aday : beklenen) {
             if (durum == aday) {
-                durum = hedef;
-                return;
+                return true;
             }
         }
-        throw new IllegalStateException(durum + " durumundan " + hedef + " durumuna gecilemez.");
+        return false;
     }
 }

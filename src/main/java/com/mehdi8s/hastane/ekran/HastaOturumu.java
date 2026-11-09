@@ -69,7 +69,7 @@ public final class HastaOturumu extends Oturum {
     }
 
     private void iptalEt(Konsol konsol) {
-        List<Randevu> liste = kendiRandevulari();
+        List<Randevu> liste = kendiRandevulari().stream().filter(Randevu::iptalKabulEder).toList();
         listeYaz(konsol, liste);
         if (liste.isEmpty()) {
             return;

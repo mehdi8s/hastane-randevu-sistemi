@@ -30,6 +30,7 @@ public final class EkranDenemesi {
             yoneticiIkinciYoneticiKaydeder();
             sunumSenaryosuHazirDurur();
             randevuDurumaGoreSuzulur();
+            islemYalnizcaGecerliDurumuListeler();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -64,7 +65,7 @@ public final class EkranDenemesi {
                 "2", "1",
                 "0",
                 "4",
-                "3", "2",
+                "3", "1",
                 "0",
                 "1",
                 "3", "1",
@@ -217,6 +218,19 @@ public final class EkranDenemesi {
         kontrol(metin.contains("Ali Demir") && metin.contains("ONAYLANDI"), "Onayli randevu listelenmeli.");
         kontrol(metin.contains("Gecersiz durum."), "Tanimli olmayan durum reddedilmeli.");
         kontrol(metin.contains("Kayit yok."), "Hastanin onayli randevusu yokken liste bos olmali.");
+    }
+
+    private static void islemYalnizcaGecerliDurumuListeler() {
+        SistemKaydi kayit = SunumSenaryosu.olustur();
+        SenaryoKonsolu konsol = new SenaryoKonsolu("7", "4", "1", "0", "0");
+        new GirisEkrani(kayit, () -> {
+        }).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Gecerli durum senaryosu artmis veya eksik kaldi.");
+        kontrol(konsol.metin().contains("Tamam: TAMAMLANDI"), "Onayli randevu tamamlanmali.");
+        kontrol(kayit.getRandevuServisi().getRandevular().get(0).getDurum() == RandevuDurumu.ONAY_BEKLIYOR,
+                "Onay bekleyen randevu tamamlama listesinde olmamali.");
+        kontrol(kayit.getRandevuServisi().getRandevular().get(1).getDurum() == RandevuDurumu.TAMAMLANDI,
+                "Tamamlama yalnizca onayli kayda uygulanmali.");
     }
 
     private static boolean hataVerir(Runnable islem) {
