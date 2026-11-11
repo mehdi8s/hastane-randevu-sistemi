@@ -31,6 +31,7 @@ public final class EkranDenemesi {
             sunumSenaryosuHazirDurur();
             randevuDurumaGoreSuzulur();
             islemYalnizcaGecerliDurumuListeler();
+            doktorKendiUygunlugunuEkler();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -231,6 +232,25 @@ public final class EkranDenemesi {
                 "Onay bekleyen randevu tamamlama listesinde olmamali.");
         kontrol(kayit.getRandevuServisi().getRandevular().get(1).getDurum() == RandevuDurumu.TAMAMLANDI,
                 "Tamamlama yalnizca onayli kayda uygulanmali.");
+    }
+
+    private static void doktorKendiUygunlugunuEkler() {
+        SistemKaydi kayit = OrnekSistem.olustur();
+        int[] kayitSayisi = {0};
+        SenaryoKonsolu konsol = new SenaryoKonsolu(
+                "2",
+                "6", "2", "09:00", "12:00",
+                "6", "1", "13:00", "15:00",
+                "0",
+                "0");
+        new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Doktor uygunluk senaryosu artmis veya eksik kaldi.");
+        kontrol(konsol.metin().contains("subenin calisma saati icinde olmali"),
+                "Sube kapaliyken doktor uygunlugu reddedilmeli.");
+        kontrol(konsol.metin().contains("Uygunluk eklendi."), "Gecerli uygunluk ekranda bildirilmeli.");
+        kontrol(kayit.getDoktorlar().get(0).getUygunluklar().size() == 2,
+                "Doktor kendi uygunluk saatini eklemeli.");
+        kontrol(kayitSayisi[0] == 1, "Reddedilen uygunluk kaydedilmemeli.");
     }
 
     private static boolean hataVerir(Runnable islem) {

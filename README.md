@@ -2,7 +2,7 @@
 
 Sakarya Üniversitesi bilgisayar mühendisliği yüksek lisans dersi için nesneye dayalı randevu sistemi. Tek klinik de, birden fazla şubesi olan hastane de aynı modelle kurulur.
 
-Alan modeli kurum, şube, hizmet, kişi rolleri ve randevu durumunu taşır. Randevu servisi uygunluk saatini, çakışmayı ve onay yetkisini uygular. Dosya deposu bu kayıtları program kapanınca da tutar. Giriş ekranı kişiyi rolüne göre menüye alır; listeler duruma göre süzülür. Tasarım, sınıf ve durum diyagramları `TASARIM.md`, sunum sırası `SUNUM.md` dosyasındadır.
+Alan modeli kurum, şube, hizmet, kişi rolleri ve randevu durumunu taşır. Randevu servisi uygunluk saatini, çakışmayı ve onay yetkisini uygular. Doktor kendi uygunluk saatini menüden yazar; şube kapalıysa kayıt olmaz. Dosya deposu bu kayıtları program kapanınca da tutar. Giriş ekranı kişiyi rolüne göre menüye alır; listeler duruma göre süzülür. Tasarım, sınıf ve durum diyagramları `TASARIM.md`, sunum sırası `SUNUM.md` dosyasındadır.
 
 ## Derleme
 

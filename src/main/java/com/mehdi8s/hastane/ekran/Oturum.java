@@ -5,7 +5,11 @@ import com.mehdi8s.hastane.kisi.Kisi;
 import com.mehdi8s.hastane.randevu.Randevu;
 import com.mehdi8s.hastane.randevu.RandevuDurumu;
 import com.mehdi8s.hastane.randevu.RandevuServisi;
+import com.mehdi8s.hastane.zaman.ZamanAraligi;
 
+import java.time.DayOfWeek;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public abstract class Oturum {
@@ -124,5 +128,23 @@ public abstract class Oturum {
             konsol.yaz((i + 1) + ") " + liste.get(i));
         }
         return liste.get(siraOku(konsol, liste.size(), istem));
+    }
+
+    protected final ZamanAraligi aralikOku(Konsol konsol) {
+        konsol.yaz("Gun: 1 Pazartesi ... 7 Pazar");
+        int gun = sayiOku(konsol, "Gun");
+        if (gun < 1 || gun > 7) {
+            throw new IllegalArgumentException("Gun 1 ile 7 arasinda olmali.");
+        }
+        return new ZamanAraligi(DayOfWeek.of(gun), saatOku(konsol, "Baslangic"), saatOku(konsol, "Bitis"));
+    }
+
+    private LocalTime saatOku(Konsol konsol, String istem) {
+        String metin = konsol.oku(istem + " (HH:mm)");
+        try {
+            return LocalTime.parse(metin);
+        } catch (DateTimeParseException ex) {
+            throw new IllegalArgumentException("Saat HH:mm olmali.");
+        }
     }
 }

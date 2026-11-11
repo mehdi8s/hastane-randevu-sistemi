@@ -14,12 +14,8 @@ import com.mehdi8s.hastane.kurum.Bolum;
 import com.mehdi8s.hastane.kurum.SaglikKurumu;
 import com.mehdi8s.hastane.kurum.Sube;
 import com.mehdi8s.hastane.randevu.Randevu;
-import com.mehdi8s.hastane.zaman.ZamanAraligi;
 
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
-import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
 
 public final class YoneticiOturumu extends YetkiliOturum {
@@ -206,24 +202,6 @@ public final class YoneticiOturumu extends YetkiliOturum {
                 .filter(doktor -> doktor.getKurum().equals(kurum()))
                 .toList();
         return listedanSec(konsol, doktorlar, "Kurumda doktor yok.", "Doktor");
-    }
-
-    private ZamanAraligi aralikOku(Konsol konsol) {
-        konsol.yaz("Gun: 1 Pazartesi ... 7 Pazar");
-        int gun = sayiOku(konsol, "Gun");
-        if (gun < 1 || gun > 7) {
-            throw new IllegalArgumentException("Gun 1 ile 7 arasinda olmali.");
-        }
-        return new ZamanAraligi(DayOfWeek.of(gun), saatOku(konsol, "Baslangic"), saatOku(konsol, "Bitis"));
-    }
-
-    private LocalTime saatOku(Konsol konsol, String istem) {
-        String metin = konsol.oku(istem + " (HH:mm)");
-        try {
-            return LocalTime.parse(metin);
-        } catch (DateTimeParseException ex) {
-            throw new IllegalArgumentException("Saat HH:mm olmali.");
-        }
     }
 
     private BigDecimal ucretOku(Konsol konsol) {

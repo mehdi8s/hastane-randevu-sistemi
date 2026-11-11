@@ -6,7 +6,7 @@ Süre: yaklaşık 5 dakika. Ekran, sınıf yapısını göstermek içindir.
 
 1. `SaglikKurumu` soyut sınıftır. `Hastane` ikinci şubeyi alır, `Klinik` almaz. Aynı `subeEkle` çağrısı iki farklı gövde çalıştırır.
 2. `Kisi.rol()` her alt sınıfta sabittir. Giriş ekranı nesnenin sınıfına göre menü açar.
-3. Randevu yalnızca `RandevuServisi` üzerinden doğar. Uygunluk, şube saati ve çakışma orada reddedilir.
+3. Randevu yalnızca `RandevuServisi` üzerinden doğar. Uygunluk, şube saati ve çakışma orada reddedilir. Doktor kendi uygunluk saatini menüden ekler; şube kapalıysa kayıt olmaz.
 4. Durum geçişi `Randevu` içindedir. Onay bekleyen kayıt tamamlanamaz; reddedilen veya iptal edilen saat yeniden verilir.
 
 ## Sınıf diyagramı

@@ -142,7 +142,7 @@ Hasta talebi, onay, red ve iptal yine `RandevuServisi` içinden geçer. Ekran ku
 
 ## Yönetici tanımları
 
-`YoneticiOturumu` kendi kurumuna şube, bölüm, çalışma saati ve hizmet ekler. Hastane ikinci şubeyi kabul eder; klinik `yeniSubeKabulEder` yüzünden reddeder. Yeni hizmet `GenelMuayene`, `Radyoloji` veya `Laboratuvar` olarak kurulur. Doktorun verdiği hizmet ve uygunluk da bu menüden yazılır; uygunluk şubenin çalışma saatinin dışındaysa `Doktor` reddeder. Ekran bu kuralı yeniden yazmaz.
+`YoneticiOturumu` kendi kurumuna şube, bölüm, çalışma saati ve hizmet ekler. Hastane ikinci şubeyi kabul eder; klinik `yeniSubeKabulEder` yüzünden reddeder. Yeni hizmet `GenelMuayene`, `Radyoloji` veya `Laboratuvar` olarak kurulur. Doktorun verdiği hizmet ve uygunluk da bu menüden yazılır. Doktor kendi uygunluğunu `DoktorOturumu` içinden de ekler. Aralık şubenin çalışma saatinin dışındaysa `Doktor` reddeder. Ekran bu kuralı yeniden yazmaz.
 
 Aynı menüden hasta, doktor, personel ve ikinci yönetici kaydı da açılır. Yeni yönetici mevcut yöneticinin kurumuna bağlanır. Oturum kapanınca giriş ekranı onu da gösterir.
 
