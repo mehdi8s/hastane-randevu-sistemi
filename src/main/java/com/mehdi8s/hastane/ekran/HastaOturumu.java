@@ -5,6 +5,7 @@ import com.mehdi8s.hastane.kayit.SistemKaydi;
 import com.mehdi8s.hastane.kisi.Doktor;
 import com.mehdi8s.hastane.kisi.Hasta;
 import com.mehdi8s.hastane.randevu.Randevu;
+import com.mehdi8s.hastane.zaman.ZamanAraligi;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
@@ -62,6 +63,9 @@ public final class HastaOturumu extends Oturum {
             konsol.yaz((i + 1) + ") " + hizmet + " (" + hizmet.getSureDakika() + " dk, " + hizmet.getUcret().toPlainString() + ")");
         }
         SaglikHizmeti hizmet = hizmetler.get(siraOku(konsol, hizmetler.size(), "Hizmet"));
+        if (!uygunlukYaz(konsol, doktor)) {
+            return;
+        }
         LocalDateTime baslangic = tarihOku(konsol);
         Randevu randevu = servis().olustur((Hasta) kisi(), doktor, hizmet, baslangic);
         sakla();
@@ -84,6 +88,19 @@ public final class HastaOturumu extends Oturum {
         return servis().getRandevular().stream()
                 .filter(randevu -> randevu.getHasta().equals(kisi()))
                 .toList();
+    }
+
+    private boolean uygunlukYaz(Konsol konsol, Doktor doktor) {
+        List<ZamanAraligi> saatler = doktor.getUygunluklar();
+        if (saatler.isEmpty()) {
+            konsol.yaz("Bu doktorun uygun saati yok.");
+            return false;
+        }
+        konsol.yaz("Uygun saatler:");
+        for (ZamanAraligi saat : saatler) {
+            konsol.yaz(saat.toString());
+        }
+        return true;
     }
 
     private LocalDateTime tarihOku(Konsol konsol) {

@@ -83,6 +83,18 @@ public final class ZamanAraligi {
 
     @Override
     public String toString() {
-        return gun + " " + baslangic + "-" + bitis;
+        return gunAdi(gun) + " " + baslangic + "-" + bitis;
+    }
+
+    private static String gunAdi(DayOfWeek gun) {
+        return switch (gun) {
+            case MONDAY -> "Pazartesi";
+            case TUESDAY -> "Sali";
+            case WEDNESDAY -> "Carsamba";
+            case THURSDAY -> "Persembe";
+            case FRIDAY -> "Cuma";
+            case SATURDAY -> "Cumartesi";
+            case SUNDAY -> "Pazar";
+        };
     }
 }

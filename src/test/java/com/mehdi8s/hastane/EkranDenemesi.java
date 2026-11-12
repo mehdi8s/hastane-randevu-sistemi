@@ -6,7 +6,10 @@ import com.mehdi8s.hastane.ekran.OrnekSistem;
 import com.mehdi8s.hastane.ekran.SunumSenaryosu;
 import com.mehdi8s.hastane.kurum.Klinik;
 import com.mehdi8s.hastane.kurum.Sube;
+import com.mehdi8s.hastane.hizmet.SaglikHizmeti;
 import com.mehdi8s.hastane.kayit.DosyaDeposu;
+import com.mehdi8s.hastane.kisi.Doktor;
+import com.mehdi8s.hastane.kisi.Uzmanlik;
 import com.mehdi8s.hastane.kayit.SistemKaydi;
 import com.mehdi8s.hastane.randevu.Randevu;
 import com.mehdi8s.hastane.randevu.RandevuDurumu;
@@ -32,6 +35,7 @@ public final class EkranDenemesi {
             randevuDurumaGoreSuzulur();
             islemYalnizcaGecerliDurumuListeler();
             doktorKendiUygunlugunuEkler();
+            hastaUygunSaatiGorur();
         } catch (IOException ex) {
             throw new IllegalStateException(ex);
         }
@@ -81,6 +85,7 @@ public final class EkranDenemesi {
         kontrol(metin.contains("Tamam: ONAYLANDI"), "Doktor onayi ekranda gorunmeli.");
         kontrol(metin.contains("Tamam: REDDEDILDI"), "Yonetici reddi ekranda gorunmeli.");
         kontrol(metin.contains("Randevu iptal edildi."), "Hasta iptali ekranda gorunmeli.");
+        kontrol(metin.contains("Pazartesi 09:00-12:00"), "Hasta doktorun uygun saatini gormeli.");
 
         List<Randevu> randevular = kayit.getRandevuServisi().getRandevular();
         kontrol(randevular.size() == 2, "Yalnizca gecerli talepler saklanmali.");
@@ -251,6 +256,27 @@ public final class EkranDenemesi {
         kontrol(kayit.getDoktorlar().get(0).getUygunluklar().size() == 2,
                 "Doktor kendi uygunluk saatini eklemeli.");
         kontrol(kayitSayisi[0] == 1, "Reddedilen uygunluk kaydedilmemeli.");
+    }
+
+    private static void hastaUygunSaatiGorur() {
+        SistemKaydi kayit = OrnekSistem.olustur();
+        Doktor mevcut = kayit.getDoktorlar().get(0);
+        SaglikHizmeti hizmet = mevcut.getHizmetler().get(0);
+        Doktor bos = new Doktor("Deniz", "Koc", mevcut.getKurum(), mevcut.getSube(), new Uzmanlik("Dahiliye"));
+        bos.hizmetEkle(hizmet);
+        kayit.doktorEkle(bos);
+        int[] kayitSayisi = {0};
+        SenaryoKonsolu konsol = new SenaryoKonsolu(
+                "1",
+                "1", "2", "1",
+                "0",
+                "0");
+        new GirisEkrani(kayit, () -> kayitSayisi[0]++).calistir(konsol);
+        kontrol(konsol.kalan() == 0, "Uygun saat senaryosu artmis veya eksik kaldi.");
+        kontrol(konsol.metin().contains("Bu doktorun uygun saati yok."),
+                "Saati olmayan doktor icin tarih sorulmamali.");
+        kontrol(kayit.getRandevuServisi().getRandevular().isEmpty(), "Saati olmayan doktora randevu yazilmamali.");
+        kontrol(kayitSayisi[0] == 0, "Olusmayan randevu kaydedilmemeli.");
     }
 
     private static boolean hataVerir(Runnable islem) {

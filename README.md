@@ -32,7 +32,7 @@ Kayıt dosyası yoksa sunum senaryosu yazılır. Varsa dosyadaki kayıt açılı
 java -cp out com.mehdi8s.hastane.ekran.Uygulama
 ```
 
-Listeden kişi seçilir. Hasta randevu ister ve iptal eder. Doktor ile yönetici onaylar, reddeder veya tamamlar. Sağlık personeli yalnızca kendi şubesindeki randevuları görür. Yönetici şube, bölüm, çalışma saati, hizmet ve doktor uygunluğu tanımlar; hasta, doktor, personel ve ikinci yönetici kaydeder.
+Listeden kişi seçilir. Hasta randevu isterken doktorun uygun saatini görür; saat yoksa tarih sorulmaz. Hasta randevusunu iptal de eder. Doktor ile yönetici onaylar, reddeder veya tamamlar. Sağlık personeli yalnızca kendi şubesindeki randevuları görür. Yönetici şube, bölüm, çalışma saati, hizmet ve doktor uygunluğu tanımlar; hasta, doktor, personel ve ikinci yönetici kaydeder.
 
 Sunumdaki hazır dünya:
 

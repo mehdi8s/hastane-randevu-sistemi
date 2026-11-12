@@ -138,7 +138,7 @@ Yeni nesne kendi kimliğini üretir. Dosyadan gelen nesne `yukle` metoduyla eski
 
 `GirisEkrani` kayıtlı kişileri listeler. `OturumAcici` seçilen nesnenin sınıfına göre oturum açar: `HastaOturumu`, `DoktorOturumu`, `YoneticiOturumu` veya `PersonelOturumu`. Doktor ve yönetici ortak komutları `YetkiliOturum` üzerinden alır; fark, gördükleri randevu listesindedir. Personelin onay komutu yoktur.
 
-Hasta talebi, onay, red ve iptal yine `RandevuServisi` içinden geçer. Ekran kuralı tekrar etmez. İşlem kaydı değiştirirse `KayitSaklayici` dosyayı yeniden yazar.
+Hasta talebi, onay, red ve iptal yine `RandevuServisi` içinden geçer. Talep ekranı doktorun uygun saatlerini yazar; saat yoksa tarih sorulmaz. Aralık yine serviste denetlenir. Ekran kuralı tekrar etmez. İşlem kaydı değiştirirse `KayitSaklayici` dosyayı yeniden yazar.
 
 ## Yönetici tanımları
 
