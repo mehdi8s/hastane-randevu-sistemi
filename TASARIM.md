@@ -120,7 +120,9 @@ classDiagram
 
 ## Randevu servisi
 
-`RandevuServisi` yeni kaydın tek girişidir. Talep kabul edilmeden önce üç kural aranır:
+`RandevuServisi` yeni kaydın tek girişidir. Talep kabul edilmeden önce dört kural aranır:
+
+- Hizmet, doktorun verdiği hizmetler arasındadır. Şubede tanımlı olsa da doktor eklemediyse randevu yazılmaz.
 
 - Başlangıç ve hizmet süresi, doktorun tek bir uygunluk aralığının içinde kalır. Aralık 09:00–12:00 ise 11:40’ta başlayan 20 dakikalık randevu geçer, 11:50’de başlayan geçmez.
 - Aynı aralık şubenin çalışma saatinin de içinde kalır.

@@ -19,6 +19,9 @@ public final class RandevuServisi {
         Objects.requireNonNull(doktor, "Doktor bos olamaz.");
         Objects.requireNonNull(hizmet, "Hizmet bos olamaz.");
         Objects.requireNonNull(baslangic, "Baslangic bos olamaz.");
+        if (!doktor.getHizmetler().contains(hizmet)) {
+            throw new IllegalArgumentException("Doktor bu hizmeti vermiyor.");
+        }
 
         LocalDateTime bitis = baslangic.plusMinutes(hizmet.getSureDakika());
         boolean doktorUygun = doktor.getUygunluklar().stream()

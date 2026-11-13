@@ -1,6 +1,7 @@
 package com.mehdi8s.hastane;
 
 import com.mehdi8s.hastane.hizmet.GenelMuayene;
+import com.mehdi8s.hastane.hizmet.Radyoloji;
 import com.mehdi8s.hastane.kisi.Doktor;
 import com.mehdi8s.hastane.kisi.Hasta;
 import com.mehdi8s.hastane.kisi.SaglikPersoneli;
@@ -23,6 +24,7 @@ public final class RandevuServisiDenemesi {
         uygunSaatKabulEdilir();
         uygunlugunBitisindeKabulEdilir();
         uygunlukDisiReddedilir();
+        doktorunVermedigiHizmetReddedilir();
         cakisanReddedilirBitisikKabulEdilir();
         iptalVeRedSaatiBosaltir();
         ayniHastaBaskaDoktordaCakisamaz();
@@ -54,6 +56,15 @@ public final class RandevuServisiDenemesi {
         LocalDateTime sali = LocalDateTime.of(2026, 11, 3, 9, 0);
         kontrol(hataVerir(() -> sahne.servis.olustur(sahne.hasta, sahne.doktor, sahne.muayene, sali)),
                 "Doktorun calismadigi gun reddedilmeli.");
+    }
+
+    private static void doktorunVermedigiHizmetReddedilir() {
+        Sahne sahne = sahne();
+        Radyoloji rontgen = new Radyoloji("Akciger Grafisi", 15, new BigDecimal("400.00"));
+        sahne.sube.hizmetEkle(rontgen);
+        kontrol(hataVerir(() -> sahne.servis.olustur(sahne.hasta, sahne.doktor, rontgen, saat(9, 0))),
+                "Doktorun vermedigi hizmet reddedilmeli.");
+        kontrol(sahne.servis.getRandevular().isEmpty(), "Reddedilen hizmet randevu yazmamali.");
     }
 
     private static void cakisanReddedilirBitisikKabulEdilir() {
